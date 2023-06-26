@@ -1,0 +1,91 @@
+#!/usr/bin/env bash
+#PBS -q sequentiel
+#PBS -l ncpus=1
+#PBS -l mem=10gb
+#PBS -l walltime=02:30:00
+
+# Chargement de l'environnement Qiime
+. /appli/bioinfo/qiime/2022.11/env.sh
+
+trimmed=/home1/datawork/sdarinot/08_P3M_Maeva/qiime_results_selected/02_trimmed_seqs.qza
+trimleftF=0
+trimleftR=0
+trunclenF=221
+trunclenR=229
+maxeeF=1 #default 2
+maxeeR=1 #default 2
+truncQ=2 #default 2
+chimera='consensus' #default
+rep_seq=/home1/datawork/sdarinot/08_P3M_Maeva/qiime_results_selected/03_rep_seqs.qza
+denoise_table=/home1/datawork/sdarinot/08_P3M_Maeva/qiime_results_selected/03_denoise_table.qza
+denoise_stat=/home1/datawork/sdarinot/08_P3M_Maeva/qiime_results_selected/03_denoise_stat.qza
+denoise_stat_summary=/home1/datawork/sdarinot/08_P3M_Maeva/qiime_results_selected/03_denoise_stat_summary.qzv
+denoise_table_summary=/home1/datawork/sdarinot/08_P3M_Maeva/qiime_results_selected/03_denoise_table_summary.qzv
+rep_seq_summary=/home1/datawork/sdarinot/08_P3M_Maeva/qiime_results_selected/03_denoise_rep_seq.qzv
+denoise_output=/home1/datawork/sdarinot/08_P3M_Maeva/qiime_results_selected/03_denoise_output
+
+
+qiime dada2 denoise-paired \
+ --i-demultiplexed-seqs ${trimmed} \
+ --p-trunc-len-f ${trunclenF} \
+ --p-trunc-len-r ${trunclenR} \
+ --p-trim-left-f ${trimleftF} \
+ --p-trim-left-r ${trimleftR} \
+ --p-max-ee-f ${maxeeF} \
+ --p-max-ee-r ${maxeeR} \
+ --p-trunc-q ${truncQ} \
+ --p-chimera-method ${chimera} \
+ --o-representative-sequences ${rep_seq} \
+ --o-table ${denoise_table} \
+ --o-denoising-stats ${denoise_stat} \
+
+#create tabular view of taxonomy metadata
+
+qiime metadata tabulate \
+ --m-input-file ${denoise_stat} \
+ --o-visualization ${denoise_stat_summary} \
+
+#create tabular summaries of a feature table
+
+qiime feature-table summarize \
+ --i-table ${denoise_table} \
+ --o-visualization ${denoise_table_summary} \
+ --m-sample-metadata-file ${metadata}
+
+#create tabular view of feature identifier to sequence mapping
+
+qiime metadata tabulate \
+ --m-input-file ${denoise_stat} \
+ --o-visualization ${denoise_stat_summary} \
+
+#create tabular summaries of a feature table
+
+qiime feature-table summarize \
+ --i-table ${denoise_table} \
+ --o-visualization ${denoise_table_summary} \
+ --m-sample-metadata-file ${metadata}
+
+#create tabular view of feature identifier to sequence mapping
+
+qiime feature-table tabulate-seqs \
+ --i-data ${rep_seq} \
+ --o-visualization ${rep_seq_summary}
+
+
+#export the visualization files
+
+qiime tools export \
+ --input-path ${denoise_table_summary} \
+ --output-path ${denoise_output}
+
+qiime tools export \
+ --input-path ${denoise_table} \
+ --output-path ${denoise_output}
+
+qiime tools export \
+ --input-path ${denoise_stat_summary} \
+ --output-path ${denoise_output} 
+
+qiime tools export \
+ --input-path ${rep_seq_summary} \
+ --output-path ${denoise_output}
