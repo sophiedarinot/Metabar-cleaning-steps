@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+#PBS -q sequentiel
+#PBS -l ncpus=1
+#PBS -l mem=10gb
+#PBS -l walltime=00:20:00
+
+#Chargement de l'environnement Qiime
+. /appli/bioinfo/qiime/2022.11/env.sh
+
+manifest=/home1/datawork/sdarinot/08_P3M_Maeva/manifest_selected.tsv
+demux_seq=/home1/datawork/sdarinot/08_P3M_Maeva/qiime_results_selected/01_demux_seqs.qza
+summary=/home1/datawork/sdarinot/08_P3M_Maeva/qiime_results_selected/01_demux_summary.qzv
+output=/home1/datawork/sdarinot/08_P3M_Maeva/qiime_results_selected/01_demux_output
+
+qiime tools import \
+ --type "SampleData[PairedEndSequencesWithQuality]" \
+ --input-format PairedEndFastqManifestPhred33V2 \
+ --input-path "${manifest}" \
+ --output-path "${demux_seq}"
+
+qiime demux summarize \
+ --i-data "${demux_seq}" \
+ --o-visualization "${summary}" \
+
+qiime tools export \
+ --input-path "${summary}" \
+ --output-path "${output}"
