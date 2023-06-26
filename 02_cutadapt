@@ -1,0 +1,34 @@
+#!/usr/bin/env bash
+#PBS -q sequentiel
+#PBS -l ncpus=1
+#PBS -l mem=10gb
+#PBS -l walltime=00:20:00
+
+. /appli/bioinfo/qiime/2022.11/env.sh
+
+demux_seq=/home1/datawork/sdarinot/08_P3M_Maeva/qiime_results_selected/01_demux_seqs.qza
+primerF=GTGYCAGCMGCCGCGGTAA
+primerR=GGACTACNVGGGTWTCTAAT
+error_rate=0.1 #default
+overlap=19 #length of the shortest primer
+trimmed=/home1/datawork/sdarinot/08_P3M_Maeva/qiime_results_selected/02_trimmed_seqs.qza
+summary=/home1/datawork/sdarinot/08_P3M_Maeva/qiime_results_selected/02_trimmed_summary.qzv
+output=/home1/datawork/sdarinot/08_P3M_Maeva/qiime_results_selected/02_trimmed_output
+
+qiime cutadapt trim-paired \
+ --i-demultiplexed-sequences "${demux_seq}" \
+ --p-front-f "${primerF}" \
+ --p-front-r "${primerR}" \
+ --p-error-rate "${error_rate}" \
+ --p-match-read-wildcards \
+ --p-discard-untrimmed \
+ --p-overlap "${overlap}" \
+ --o-trimmed-sequences "${trimmed}"
+
+qiime demux summarize \
+ --i-data "${trimmed}" \
+ --o-visualization "${summary}"
+
+qiime tools export \
+ --input-path "${summary}" \
+ --output-path "${output}" \
