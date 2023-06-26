@@ -1,0 +1,53 @@
+#!/usr/bin/env bash
+#PBS -q sequentiel
+#PBS -l ncpus=1
+#PBS -l mem=40gb
+#PBS -l walltime=05:00:00
+
+# Chargement de l'environnement Qiime
+. /appli/bioinfo/qiime/2022.11/env.sh
+
+database=/home/ref-bioinfo/ifremer/sebimer/tool-specific-banks/qiime2/2022.11/SILVA/v138.1/target_region/16S_V4_515f-806r_Parada-Apprill/SILVA_v138.1_ref_V4_515f-806r_Parada-Apprill.qza
+sequences=/home1/datawork/sdarinot/08_P3M_Maeva/qiime_results_selected/04_dbotu_seqs.qza
+confidence=0.9 #default
+taxoqza=/home1/datawork/sdarinot/08_P3M_Maeva/qiime_results_selected/05_taxonomy.qza
+taxoqzv=/home1/datawork/sdarinot/08_P3M_Maeva/qiime_results_selected/05_taxonomy.qzv
+taxo_output=/home1/datawork/sdarinot/08_P3M_Maeva/qiime_results_selected/05_taxonomy_output
+asv_taxo_tsv=/home1/datawork/sdarinot/08_P3M_Maeva/qiime_results_selected/05_taxonomy_asv.tsv
+dbotu_output=/home1/datawork/sdarinot/08_P3M_Maeva/qiime_results_selected/04_dbotu_output
+final_asv_taxo_biom=/home1/datawork/sdarinot/08_P3M_Maeva/qiime_results_selected/05_taxonomy_asv.biom
+final_asv_taxo_tsv=/home1/datawork/sdarinot/08_P3M_Maeva/qiime_results_selected/05_taxonomy_asv_final.tsv
+
+qiime feature-classifier classify-sklearn \
+ --i-reads ${sequences} \
+ --i-classifier ${database} \
+ --p-confidence ${confidence} \
+ --o-classification ${taxoqza}
+
+qiime metadata tabulate \
+ --m-input-file ${sequences} \
+ --m-input-file ${taxoqza} \
+ --o-visualization ${taxoqzv}
+
+qiime tools export \
+ --input-path ${taxoqzv} \
+ --output-path ${taxo_output}
+
+#renommer le tableau
+mv ${taxo_output}/metadata.tsv ${asv_taxo_tsv}
+sed -i '1,2d' ${asv_taxo_tsv}
+sed -i '1 i\\#OTUID\tsequence\ttaxonomy\tconfidence' ${asv_taxo_tsv}
+
+#ajout de la taxonomy à la table de compte
+biom add-metadata \
+ -i ${dbotu_output}/feature-table.biom \
+ --observation-metadata-fp ${asv_taxo_tsv} \
+ -o ${final_asv_taxo_biom} \
+ --sc-separated taxonomy
+
+#convert biom format to tabular
+biom convert \
+ -i ${final_asv_taxo_biom} \
+ -o ${final_asv_taxo_tsv} \
+ --to-tsv \
+ --header-key taxonomy
