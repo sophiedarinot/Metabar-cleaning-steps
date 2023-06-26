@@ -1,0 +1,61 @@
+#!/usr/bin/env bash
+#PBS -q sequentiel
+#PBS -l ncpus=1
+#PBS -l mem=5gb
+#PBS -l walltime=01:30:00
+
+# Chargement de l'environnement Qiime
+. /appli/bioinfo/qiime/2022.11/env.sh
+
+
+
+# Input table data produces with dada2
+TABLE=/home1/datawork/sdarinot/08_P3M_Maeva/qiime_results_selected/03_denoise_table.qza
+SEQ=/home1/datawork/sdarinot/08_P3M_Maeva/qiime_results_selected//03_rep_seqs.qza
+gen_crit=0.1 #default
+abund_crit=10 #default
+pval_crit=0.0005 #default
+DBOTU_SEQ=/home1/datawork/sdarinot/08_P3M_Maeva/qiime_results_selected/04_dbotu_seqs.qza
+DBOTU_TABLE=/home1/datawork/sdarinot/08_P3M_Maeva/qiime_results_selected/04_dbotu_table.qza
+dbotu3_details=/home1/datawork/sdarinot/08_P3M_Maeva/qiime_results_selected/04_dbotu_details
+dbotu3_tableqzv=/home1/datawork/sdarinot/08_P3M_Maeva/qiime_results_selected/04_dbotu_table.qzv
+metadata=/home1/datawork/sdarinot/08_P3M_Maeva/metadata.tsv
+dbotu3_seqqzv=/home1/datawork/sdarinot/08_P3M_Maeva/qiime_results_selected/04_dbotu_seq.qzv
+output_dbotu3=/home1/datawork/sdarinot/08_P3M_Maeva/qiime_results_selected/04_dbotu_output
+
+# Activate qiime dbotu
+qiime dbotu-q2 call-otus \
+ --i-table "${TABLE}" \
+ --i-sequences "${SEQ}" \
+ --p-gen-crit "${gen_crit}" \
+ --p-abund-crit "${abund_crit}" \
+ --p-pval-crit "${pval_crit}" \
+ --o-representative-sequences "${DBOTU_SEQ}" \
+ --o-dbotu-table "${DBOTU_TABLE}" > "${dbotu3_details}"
+
+#Generate visual and tabular views of feature table and sequence mapping
+
+qiime feature-table summarize \
+ --i-table "${DBOTU_TABLE}" \
+ --o-visualization "${dbotu3_tableqzv}" \
+ --m-sample-metadata-file "${metadata}"
+
+qiime feature-table tabulate-seqs \
+ --i-data "${DBOTU_SEQ}" \
+ --o-visualization "${dbotu3_seqqzv}"
+
+#Export all that :)
+
+qiime tools export \
+ --input-path "${dbotu3_seqqzv}" \
+ --output-path "${output_dbotu3}"
+
+qiime tools export \
+ --input-path "${dbotu3_tableqzv}" \
+ --output-path "${output_dbotu3}"
+
+qiime tools export \
+ --input-path "${DBOTU_TABLE}" \
+ --output-path "${output_dbotu3}"
+
+cp "${dbotu3_details}" "${output_dbotu3}"/
