@@ -5,12 +5,12 @@
 #PBS -l walltime=00:20:00
 
 #Chargement de l'environnement Qiime
-. /appli/bioinfo/qiime/2022.11/env.sh
+. /qiime/2022.11/env.sh
 
-manifest=/home1/datawork/sdarinot/08_P3M_Maeva/manifest_selected.tsv
-demux_seq=/home1/datawork/sdarinot/08_P3M_Maeva/qiime_results_selected/01_demux_seqs.qza
-summary=/home1/datawork/sdarinot/08_P3M_Maeva/qiime_results_selected/01_demux_summary.qzv
-output=/home1/datawork/sdarinot/08_P3M_Maeva/qiime_results_selected/01_demux_output
+manifest=/sdarinot/08_P3M_Maeva/manifest_selected.tsv
+demux_seq=/sdarinot/08_P3M_Maeva/qiime_results_selected/01_demux_seqs.qza
+summary=/sdarinot/08_P3M_Maeva/qiime_results_selected/01_demux_summary.qzv
+output=/sdarinot/08_P3M_Maeva/qiime_results_selected/01_demux_output
 
 qiime tools import \
  --type "SampleData[PairedEndSequencesWithQuality]" \
