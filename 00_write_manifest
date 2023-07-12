@@ -1,10 +1,10 @@
 #!/bin/bash
 
 # Emplacement du fichier manifest à créer
-MANI=/home1/datawork/sdarinot/08_P3M_Maeva/manifest_selected.tsv
+MANI=/sdarinot/08_P3M_Maeva/manifest_selected.tsv
 
 # Emplacement des séquences
-SEQ_FILE=/home1/datawork/sdarinot/08_P3M_Maeva/data/selected/
+SEQ_FILE=/sdarinot/08_P3M_Maeva/data/selected/
 
 echo -e "sample-id\tforward-absolute-filepath\treverse-absolute-filepath" > "${MANI}"
 
