@@ -5,24 +5,24 @@
 #PBS -l walltime=00:20:00
 
 # Chargement de l'environnement Qiime
-. /appli/bioinfo/qiime/2022.11/env.sh
+. /qiime/2022.11/env.sh
 
 # pour le 16s faire: --p-exclude avec tax_to_exclude=Eukaryota (on veut garder les bactéries ET les archées)
-# pour le 18s faire --p-include avec tax_to_include=Eukaryota (on veut seulement les eukaryotes)
+# pour le 18s faire: --p-include avec tax_to_include=Eukaryota (on veut seulement les eukaryotes)
 
-asv_table=/home1/datawork/sdarinot/01_COMET/comet/01_Analysis_18s/02_Qiime_dbotu/dbotu_table.qza
-asv_seq=/home1/datawork/sdarinot/01_COMET/comet/01_Analysis_18s/02_Qiime_dbotu/dbotu_seqs.qza
-asv_tax=/home1/datawork/sdarinot/01_COMET/comet/01_Analysis_18s/03_Qiime_taxonomy/pr2_taxonomy.qza
+asv_table=/sdarinot/01_COMET/comet/01_Analysis_18s/02_Qiime_dbotu/dbotu_table.qza
+asv_seq=/sdarinot/01_COMET/comet/01_Analysis_18s/02_Qiime_dbotu/dbotu_seqs.qza
+asv_tax=/sdarinot/01_COMET/comet/01_Analysis_18s/03_Qiime_taxonomy/pr2_taxonomy.qza
 tax_to_include="Eukaryota"
-filtered_table=/home1/datawork/sdarinot/01_COMET/comet/01_Analysis_18s/04_Qiime_filtering/pr2_filtered_tax_table.qza
-filtered_seq=/home1/datawork/sdarinot/01_COMET/comet/01_Analysis_18s/04_Qiime_filtering/pr2_filtered_tax_seq.qza
-filtered_tableqzv=/home1/datawork/sdarinot/01_COMET/comet/01_Analysis_18s/04_Qiime_filtering/pr2_filtered_tax_table.qzv
-filtered_seqqzv=/home1/datawork/sdarinot/01_COMET/comet/01_Analysis_18s/04_Qiime_filtering/pr2_filtered_tax_seq.qzv
-metadata=/home1/datawork/sdarinot/01_COMET/comet/01_Analysis_18s/sample_metadata
-filtered_tax_output=/home1/datawork/sdarinot/01_COMET/comet/01_Analysis_18s/04_Qiime_filtering/pr2_filtered_tax_output
-asv_tax_tsv=/home1/datawork/sdarinot/01_COMET/comet/01_Analysis_18s/03_Qiime_taxonomy/pr2_taxonomy_asv_final.tsv
-final_filtered_table_biom=/home1/datawork/sdarinot/01_COMET/comet/01_Analysis_18s/04_Qiime_filtering/pr2_filtered_table_final.biom
-final_filtered_table_tsv=/home1/datawork/sdarinot/01_COMET/comet/01_Analysis_18s/04_Qiime_filtering/pr2_filtered_table_final.tsv
+filtered_table=/sdarinot/01_COMET/comet/01_Analysis_18s/04_Qiime_filtering/pr2_filtered_tax_table.qza
+filtered_seq=/sdarinot/01_COMET/comet/01_Analysis_18s/04_Qiime_filtering/pr2_filtered_tax_seq.qza
+filtered_tableqzv=/sdarinot/01_COMET/comet/01_Analysis_18s/04_Qiime_filtering/pr2_filtered_tax_table.qzv
+filtered_seqqzv=/sdarinot/01_COMET/comet/01_Analysis_18s/04_Qiime_filtering/pr2_filtered_tax_seq.qzv
+metadata=/sdarinot/01_COMET/comet/01_Analysis_18s/sample_metadata
+filtered_tax_output=/sdarinot/01_COMET/comet/01_Analysis_18s/04_Qiime_filtering/pr2_filtered_tax_output
+asv_tax_tsv=/sdarinot/01_COMET/comet/01_Analysis_18s/03_Qiime_taxonomy/pr2_taxonomy_asv_final.tsv
+final_filtered_table_biom=/sdarinot/01_COMET/comet/01_Analysis_18s/04_Qiime_filtering/pr2_filtered_table_final.biom
+final_filtered_table_tsv=/sdarinot/01_COMET/comet/01_Analysis_18s/04_Qiime_filtering/pr2_filtered_table_final.tsv
 
 qiime taxa filter-table \
  --i-table ${asv_table} \
