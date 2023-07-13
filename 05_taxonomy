@@ -5,18 +5,18 @@
 #PBS -l walltime=05:00:00
 
 # Chargement de l'environnement Qiime
-. /appli/bioinfo/qiime/2022.11/env.sh
+. /qiime/2022.11/env.sh
 
-database=/home/ref-bioinfo/ifremer/sebimer/tool-specific-banks/qiime2/2022.11/SILVA/v138.1/target_region/16S_V4_515f-806r_Parada-Apprill/SILVA_v138.1_ref_V4_515f-806r_Parada-Apprill.qza
-sequences=/home1/datawork/sdarinot/08_P3M_Maeva/qiime_results_selected/04_dbotu_seqs.qza
+database=/2022.11/SILVA/v138.1/target_region/16S_V4_515f-806r_Parada-Apprill/SILVA_v138.1_ref_V4_515f-806r_Parada-Apprill.qza
+sequences=/sdarinot/08_P3M_Maeva/qiime_results_selected/04_dbotu_seqs.qza
 confidence=0.9 #default
-taxoqza=/home1/datawork/sdarinot/08_P3M_Maeva/qiime_results_selected/05_taxonomy.qza
-taxoqzv=/home1/datawork/sdarinot/08_P3M_Maeva/qiime_results_selected/05_taxonomy.qzv
-taxo_output=/home1/datawork/sdarinot/08_P3M_Maeva/qiime_results_selected/05_taxonomy_output
-asv_taxo_tsv=/home1/datawork/sdarinot/08_P3M_Maeva/qiime_results_selected/05_taxonomy_asv.tsv
-dbotu_output=/home1/datawork/sdarinot/08_P3M_Maeva/qiime_results_selected/04_dbotu_output
-final_asv_taxo_biom=/home1/datawork/sdarinot/08_P3M_Maeva/qiime_results_selected/05_taxonomy_asv.biom
-final_asv_taxo_tsv=/home1/datawork/sdarinot/08_P3M_Maeva/qiime_results_selected/05_taxonomy_asv_final.tsv
+taxoqza=/sdarinot/08_P3M_Maeva/qiime_results_selected/05_taxonomy.qza
+taxoqzv=/sdarinot/08_P3M_Maeva/qiime_results_selected/05_taxonomy.qzv
+taxo_output=/sdarinot/08_P3M_Maeva/qiime_results_selected/05_taxonomy_output
+asv_taxo_tsv=/sdarinot/08_P3M_Maeva/qiime_results_selected/05_taxonomy_asv.tsv
+dbotu_output=/sdarinot/08_P3M_Maeva/qiime_results_selected/04_dbotu_output
+final_asv_taxo_biom=/sdarinot/08_P3M_Maeva/qiime_results_selected/05_taxonomy_asv.biom
+final_asv_taxo_tsv=/sdarinot/08_P3M_Maeva/qiime_results_selected/05_taxonomy_asv_final.tsv
 
 qiime feature-classifier classify-sklearn \
  --i-reads ${sequences} \
