@@ -5,13 +5,13 @@
 #PBS -l walltime=01:00:00
 
 # Chargement de l'environnement Qiime
-. /appli/bioinfo/qiime/2022.11/env.sh
+. /qiime/2022.11/env.sh
 
-repseq=/home1/datawork/sdarinot/08_P3M_Maeva/qiime_results_selected/04_dbotu_seqs.qza
-aligned=/home1/datawork/sdarinot/08_P3M_Maeva/qiime_results_selected/06_aligned_seqs.qza
-masked=/home1/datawork/sdarinot/08_P3M_Maeva/qiime_results_selected/06_masked_alignment.qza
-unrooted_tree=/home1/datawork/sdarinot/08_P3M_Maeva/qiime_results_selected/06_unrooted_tree.qza
-rooted_tree=/home1/datawork/sdarinot/08_P3M_Maeva/qiime_results_selected/06_rooted_tree.qza
+repseq=/sdarinot/08_P3M_Maeva/qiime_results_selected/04_dbotu_seqs.qza
+aligned=/sdarinot/08_P3M_Maeva/qiime_results_selected/06_aligned_seqs.qza
+masked=/sdarinot/08_P3M_Maeva/qiime_results_selected/06_masked_alignment.qza
+unrooted_tree=/sdarinot/08_P3M_Maeva/qiime_results_selected/06_unrooted_tree.qza
+rooted_tree=/sdarinot/08_P3M_Maeva/qiime_results_selected/06_rooted_tree.qza
 
 qiime phylogeny align-to-tree-mafft-fasttree \
  --i-sequences ${repseq} \
