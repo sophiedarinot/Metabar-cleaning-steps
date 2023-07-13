@@ -5,23 +5,23 @@
 #PBS -l walltime=01:30:00
 
 # Chargement de l'environnement Qiime
-. /appli/bioinfo/qiime/2022.11/env.sh
+. /qiime/2022.11/env.sh
 
 
 
 # Input table data produces with dada2
-TABLE=/home1/datawork/sdarinot/08_P3M_Maeva/qiime_results_selected/03_denoise_table.qza
-SEQ=/home1/datawork/sdarinot/08_P3M_Maeva/qiime_results_selected//03_rep_seqs.qza
+TABLE=/sdarinot/08_P3M_Maeva/qiime_results_selected/03_denoise_table.qza
+SEQ=/sdarinot/08_P3M_Maeva/qiime_results_selected//03_rep_seqs.qza
 gen_crit=0.1 #default
 abund_crit=10 #default
 pval_crit=0.0005 #default
-DBOTU_SEQ=/home1/datawork/sdarinot/08_P3M_Maeva/qiime_results_selected/04_dbotu_seqs.qza
-DBOTU_TABLE=/home1/datawork/sdarinot/08_P3M_Maeva/qiime_results_selected/04_dbotu_table.qza
-dbotu3_details=/home1/datawork/sdarinot/08_P3M_Maeva/qiime_results_selected/04_dbotu_details
-dbotu3_tableqzv=/home1/datawork/sdarinot/08_P3M_Maeva/qiime_results_selected/04_dbotu_table.qzv
-metadata=/home1/datawork/sdarinot/08_P3M_Maeva/metadata.tsv
-dbotu3_seqqzv=/home1/datawork/sdarinot/08_P3M_Maeva/qiime_results_selected/04_dbotu_seq.qzv
-output_dbotu3=/home1/datawork/sdarinot/08_P3M_Maeva/qiime_results_selected/04_dbotu_output
+DBOTU_SEQ=/sdarinot/08_P3M_Maeva/qiime_results_selected/04_dbotu_seqs.qza
+DBOTU_TABLE=/sdarinot/08_P3M_Maeva/qiime_results_selected/04_dbotu_table.qza
+dbotu3_details=/sdarinot/08_P3M_Maeva/qiime_results_selected/04_dbotu_details
+dbotu3_tableqzv=/sdarinot/08_P3M_Maeva/qiime_results_selected/04_dbotu_table.qzv
+metadata=/sdarinot/08_P3M_Maeva/metadata.tsv
+dbotu3_seqqzv=/sdarinot/08_P3M_Maeva/qiime_results_selected/04_dbotu_seq.qzv
+output_dbotu3=/sdarinot/08_P3M_Maeva/qiime_results_selected/04_dbotu_output
 
 # Activate qiime dbotu
 qiime dbotu-q2 call-otus \
